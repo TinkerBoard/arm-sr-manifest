@@ -9,7 +9,7 @@
    <remote name="github" fetch="https://github.com" />
    <remote name="u-boot" fetch="https://gitlab.denx.de/u-boot" />
 
-   <project path="atf" name="ARM-software/arm-trusted-firmware.git" revision="refs/tags/v2.4" />
+   <project path="atf" name="ARM-software/arm-trusted-firmware.git" revision="refs/tags/v2.4" remote="github" />
    <project path="u-boot" name="u-boot.git" revision="refs/tags/v2021.07" remote="u-boot" />
    <project path="build" name="rockchip-linux/arm-sr-build">
       <linkfile src="Leez-P710.mk" dest	="build/Makefile" />
