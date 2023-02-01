@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
+  <remote  name="asus"
+           fetch=".."
+           review="http://gerrit.corpnet.asus/" />
+  <default revision="master"
+           remote="asus" sync-c="true" />
 
    <remote name="github" fetch="https://github.com" />
    <remote name="u-boot" fetch="https://gitlab.denx.de/u-boot" />
-   
-   <default remote="github" revision="master" />
-   
+
    <project path="atf" name="ARM-software/arm-trusted-firmware.git" revision="refs/tags/v2.4" />
    <project path="u-boot" name="u-boot.git" revision="refs/tags/v2021.07" remote="u-boot" />
-   <project path="build" name="ankuraltran/ARMSRBuild.git">
+   <project path="build" name="rockchip-linux/arm-sr-build">
       <linkfile src="Leez-P710.mk" dest	="build/Makefile" />
    </project>
-   
+
 </manifest>
