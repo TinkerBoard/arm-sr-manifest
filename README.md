@@ -1,35 +1,54 @@
-# ARMSR Manifest for RK3399 EVB Target Setup
+# ARM System Ready Manifest for Tinker Board 2/2S
 
-The information provided here provides the configuration and build setup for ARM System Ready compliance verification on Rockchip RK3399
+This is based on the following repository and modified for the Tinker Board 2/2S.
 
-There are three Evaluation Platforms being used as platform for the verification
+https://github.com/ankuraltran/ARMSRManifest
 
-| Target  | Manifest XML  | Device |
-| :------------: |:---------------:| :-----:|
-| Toy Brick      | TB-RK3399proD.xml | RK3399 Pro |
-| Lenovo Leez     | Leez-P710.xml        |  Leez-p710 |
-| Pine 64 | RockPro64.xml |    RockPro 64 |
+The information provided here provides the configuration and build setup for ARM System Ready compliance verification on Tinker Board series.
 
+The following products are used for the verification
 
-## 1. Install repo
-Follow the instructions under the "Installing Repo" section
-[here](https://source.android.com/source/downloading.html).
+|Product|Manifest|
+|-|-|
+|Tinker Board 2/2S|Tinker_Board_2.xml|
 
-## 2. Get the source code
-```
-$ mkdir <New_Dir>
-$ cd <New_Dir>
-$ repo init -u https://github.com/ankuraltran/ARMSRManifest -m ${TARGET}.xml [-b ${BRANCH}]
-$ repo sync -j4 --no-clone-bundle
-```
+Please refer to the following URL to install Repo. 
 
-## 3. Get the Toolkits
-```
-$ cd build/
-$ make -j2 toolchains
-```
+    https://source.android.com/setup/develop#installing-repo
 
-## 4. Build the target
-```
-$ make -j `nproc`
-```
+Please refer to the following URL to understand how to download the AOSP-based source.
+
+    https://source.android.com/setup/build/downloading
+
+To check out the specific release:
+
+    $ repo init -u https://github.com/TinkerBoard/arm-sr-manifest.git -b master -m NAME.xml
+
+Here NAME.xml is the initial manifest file. Regarding the manifest file for each project, please refer to the above table.
+
+To download the source tree to your working directory from the repositories as specified in the default manifest, please execute the following command.
+
+    $ repo sync
+
+To get the toolkits, please execute the following commands.
+
+    $ cd build/
+    $ make toolchains
+
+To build the firmware, please execute the following command.
+
+    $ make
+
+To flash the firmware to SD card, execute the following command
+sudo dd if=./out/bin/u-boot-rockchip.bin of=/dev/sdx seek=64
+<New_Dir>/out/bin/u-boot$ sync
+
+To flash the firmware to eMMC
+1.	Please create a SD card with Tinker Board 2/2S image in 
+https://tinker-board.asus.com/download-list.html?product=tinker-board-2s
+2.	Power on the device with USB-C and SD card for UMS mode
+3.	Flash Firmware to the UMS disk corresponded to eMMC
+
+sudo dd if=./out/bin/u-boot-rockchip.bin of=/dev/sdx seek=64
+<New_Dir>/out/bin/u-boot$ sync
+
