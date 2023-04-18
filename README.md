@@ -6,49 +6,65 @@ https://github.com/ankuraltran/ARMSRManifest
 
 The information provided here provides the configuration and build setup for ARM System Ready compliance verification on Tinker Board series.
 
-The following products are used for the verification
+Please refer to the following URL to install Repo. 
+
+https://source.android.com/setup/develop#installing-repo
+
+Please refer to the following URL to understand how to download the AOSP-based source.
+
+https://source.android.com/setup/build/downloading
+
+To download the source for a product, please run the following commands.
+
+    $ repo init -u https://github.com/TinkerBoard/arm-sr-manifest.git -b master -m NAME.xml
+    $ repo sync
+
+Here NAME.xml is the manifest file for the product. Regarding the manifest file for each product, please refer to the following table.
+
+The following products are used for the verification.
 
 |Product|Manifest|
 |-|-|
 |Tinker Board 2/2S|Tinker_Board_2.xml|
 
-Please refer to the following URL to install Repo. 
-
-    https://source.android.com/setup/develop#installing-repo
-
-Please refer to the following URL to understand how to download the AOSP-based source.
-
-    https://source.android.com/setup/build/downloading
-
-To check out the specific release:
-
-    $ repo init -u https://github.com/TinkerBoard/arm-sr-manifest.git -b master -m NAME.xml
-
-Here NAME.xml is the initial manifest file. Regarding the manifest file for each project, please refer to the above table.
-
-To download the source tree to your working directory from the repositories as specified in the default manifest, please execute the following command.
-
-    $ repo sync
-
-To get the toolkits, please execute the following commands.
+To get the toolkits, please run the following commands.
 
     $ cd build/
     $ make toolchains
 
-To build the firmware, please execute the following command.
+To build the firmware, please run the following command.
 
     $ make
 
-To flash the firmware to SD card, execute the following command
-sudo dd if=./out/bin/u-boot-rockchip.bin of=/dev/sdx seek=64
-<New_Dir>/out/bin/u-boot$ sync
+You can run the following commands to flash the firmware into the SD card for booting up from the SD card. Or you can use the software such as [balenaEtcher](https://www.balena.io/etcher/) to do the same thing as well.
 
-To flash the firmware to eMMC
-1.	Please create a SD card with Tinker Board 2/2S image in 
+    $ sudo dd if=./out/bin/u-boot-rockchip.bin of=/dev/sdx seek=64
+    $ sync
+
+To flash the firmware into the eMMC on the board of the product, you need to boot up the board into the UMS mode. Please have a SD card flashed with the official Tinker Board 2/2S images downloaded fron the following URL.Then, power on the board with this SD card insalled and the USB type C connected to a PC to boot the board into the UMS mode.
+
 https://tinker-board.asus.com/download-list.html?product=tinker-board-2s
-2.	Power on the device with USB-C and SD card for UMS mode
-3.	Flash Firmware to the UMS disk corresponded to eMMC
 
-sudo dd if=./out/bin/u-boot-rockchip.bin of=/dev/sdx seek=64
-<New_Dir>/out/bin/u-boot$ sync
+Once the board is booted into the UMS mode, uou can run the following commands to flash the firmware into the eMMC. Or you can use the software such as [balenaEtcher](https://www.balena.io/etcher/) to do the same thing as well.
 
+    $ sudo dd if=./out/bin/u-boot-rockchip.bin of=/dev/sdx seek=64
+    $ sync
+
+To setup and access the debug console, please refer to the following URL for the detail infomration.
+
+https://github.com/TinkerBoard/TinkerBoard/wiki/Developer-Guide#setting-up-a-serial-port-console-on-tinker-board-2s
+
+The baudrate is 115200 and you should press 'e' to edit the commands before booting when see the graphical GRUB menu to add the following to the kernel commnad line.
+
+    earlycon=uart8250,mmio32,0xff1a0000 console=uart8250,mmio32,0xff1a0000
+
+The following configuration is used to run ACS and OS landing reports.
+* Firmware: u-boot-rockchip.bin flashed in the eMMC
+* ACS: ir_acs_live_image-21.09.img flashed in the SD card
+* Distribution OSs:
+    * Feora-IoT-ostree-aarch64-37-20221118.0.iso flashed in USB Disk
+    * ubuntu-22.04.1-live-server-arm64.iso flashed in USB Disk
+
+The followin OS distros/versions were used in the OS sniff test.
+* Fedora Linux 37.2.221118.0
+* Ubuntu 22.04.1 LTS
